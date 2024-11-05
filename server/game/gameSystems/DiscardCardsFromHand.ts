@@ -7,7 +7,6 @@ import { DiscardSpecificCardSystem } from './DiscardSpecificCardSystem';
 
 export interface IDiscardCardsFromHandProperties extends IPlayerTargetSystemProperties {
     amount?: number;
-    targets?: boolean;
     cardCondition?: (card: Card, context: AbilityContext) => boolean;
 }
 
