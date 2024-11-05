@@ -70,6 +70,7 @@ import { TriggeredAbilityContext } from '../core/ability/TriggeredAbilityContext
 import { IPlayerLastingEffectProperties, PlayerLastingEffectSystem } from './PlayerLastingEffectSystem';
 import { IPlayerPhaseLastingEffectProperties, PlayerPhaseLastingEffectSystem } from './PlayerPhaseLastingEffectSystem';
 import { ILookMoveDeckCardsTopOrBottomProperties, LookMoveDeckCardsTopOrBottomSystem } from './LookMoveDeckCardsTopOrBottomSystem';
+import { DiscardCardsFromHand, IDiscardCardsFromHandProperties } from './DiscardCardsFromHand';
 // import { TakeControlAction, TakeControlProperties } from './TakeControlAction';
 // import { TriggerAbilityAction, TriggerAbilityProperties } from './TriggerAbilityAction';
 // import { TurnCardFacedownAction, TurnCardFacedownProperties } from './TurnCardFacedownAction';
@@ -239,9 +240,9 @@ export function reveal<TContext extends AbilityContext = AbilityContext>(propert
 // /**
 //  * default amount = 1
 //  */
-// export function chosenDiscard(propertyFactory: PropsFactory<ChosenDiscardProperties> = {}): GameSystem {
-//     return new ChosenDiscardAction(propertyFactory);
-// }
+export function discardCardsFromHand<TContext extends AbilityContext = AbilityContext>(propertyFactory: PropsFactory<IDiscardCardsFromHandProperties, TContext> = {}): DiscardCardsFromHand<TContext> {
+    return new DiscardCardsFromHand<TContext>(propertyFactory);
+}
 // /**
 //  * default amount = 1
 //  */
