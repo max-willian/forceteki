@@ -11,23 +11,13 @@ export default class Pillage extends EventCard {
     }
 
     public override setupCardAbilities() {
-        // this.setEventAbility({
-        //     title: 'Choose a player. They discard 2 cards from their hand.',
-        //     targetResolver: {
-        //         mode: TargetMode.Player,
-        //     },
-        //     then: (thenContext) => {
-        //         const targetPlayer = thenContext.target === this.controller ? RelativePlayer.Self : RelativePlayer.Opponent;
-        //         return {
-        //             title: 'Discard 2 cards from your hand',
-        //             immediateEffect: AbilityHelper.immediateEffects.discardCardsFromHand({ target: thenContext.target, amount: 2 }),
-        //         };
-        //     }
-        // });
-        this.setEventAbility({
-            title: 'Choose a player. They discard 2 cards from their hand.',
+    this.setEventAbility({
+        title: 'Choose a player. They discard 2 cards from their hand.',
+        targetResolver: {
+            mode: TargetMode.Player,
             immediateEffect: AbilityHelper.immediateEffects.discardCardsFromHand({ amount: 2 }),
-        });
+        }
+    });
     }
 }
 
