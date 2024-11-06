@@ -4,18 +4,16 @@ import PlayerOrCardAbility from '../ability/PlayerOrCardAbility';
 import OngoingEffectSource from '../ongoingEffect/OngoingEffectSource';
 import type Player from '../Player';
 import * as Contract from '../utils/Contract';
-import { AbilityRestriction, AbilityType, Arena, Aspect, CardType, Duration, EffectName, EventName, KeywordName, Location, RelativePlayer, Trait, WildcardLocation } from '../Constants';
+import { AbilityRestriction, Aspect, CardType, Duration, EffectName, EventName, KeywordName, Location, RelativePlayer, Trait, WildcardLocation } from '../Constants';
 import * as EnumHelpers from '../utils/EnumHelpers';
-import AbilityHelper from '../../AbilityHelper';
-import * as Helpers from '../utils/Helpers';
 import { AbilityContext } from '../ability/AbilityContext';
 import { CardAbility } from '../ability/CardAbility';
 import type Shield from '../../cards/01_SOR/tokens/Shield';
-import { KeywordInstance, KeywordWithAbilityDefinition, KeywordWithCostValues } from '../ability/KeywordInstance';
+import { KeywordInstance, KeywordWithCostValues } from '../ability/KeywordInstance';
 import * as KeywordHelpers from '../ability/KeywordHelpers';
 import { StateWatcherRegistrar } from '../stateWatcher/StateWatcherRegistrar';
 import type { EventCard } from './EventCard';
-import type { CardWithExhaustProperty, CardWithTriggeredAbilities, CardWithConstantAbilities, TokenCard, UnitCard, CardWithDamageProperty } from './CardTypes';
+import type { TokenCard, UnitCard, CardWithDamageProperty } from './CardTypes';
 import type { UpgradeCard } from './UpgradeCard';
 import type { BaseCard } from './BaseCard';
 import type { LeaderCard } from './LeaderCard';
@@ -359,16 +357,20 @@ export class Card extends OngoingEffectSource {
     // ******************************************* KEYWORD HELPERS *******************************************
     /** Helper method for {@link Card.keywords} */
     protected getKeywords() {
-        const keywords = [...this.printedKeywords];
-
-        for (const gainedKeyword of this.getOngoingEffectValues(EffectName.GainKeyword)) {
-            keywords.push(gainedKeyword);
+        let keywords = [...this.printedKeywords];
+        let gainKeywordEffects = this.getOngoingEffects().filter((ongoingEffect) => ongoingEffect.type === EffectName.GainKeyword);
+        const loseKeywordEffects = this.getOngoingEffects().filter((ongoingEffect) => ongoingEffect.type === EffectName.LoseKeyword);
+        // cancel all gain keyword effects that are covered by a lose keyword effect(i.e. that were active when the lose effect was applied)
+        for (const loseKeywordEffect of loseKeywordEffects) {
+            gainKeywordEffects = gainKeywordEffects.filter((gainKeywordEffect) => !loseKeywordEffect.getValue(this).effectsToCancel.includes(gainKeywordEffect));
+            // also cancel any matching printed keywords
+            keywords = keywords.filter((keyword) => keyword.name !== loseKeywordEffect.getValue(this).name);
         }
-
-        // TODO: lost keywords should be able to be re-added by later effects
-        // for (const lostKeyword of this.getOngoingEffectValues(EffectName.LoseKeyword)) {
-        //     keywords = keywords.filter((keyword) => keyword.name === lostKeyword);
-        // }
+        for (const gainKeywordEffect of gainKeywordEffects) {
+            if (!keywords.includes(gainKeywordEffect.getValue(this))) {
+                keywords.push(gainKeywordEffect.getValue(this));
+            }
+        }
 
         return keywords;
     }
