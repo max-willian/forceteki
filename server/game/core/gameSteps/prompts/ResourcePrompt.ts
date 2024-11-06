@@ -92,7 +92,7 @@ export class ResourcePrompt extends AllPlayerPrompt {
     protected resourceSelectedCards(player: Player) {
         if (this.selectedCards[player.name].length > 0) {
             for (const card of this.selectedCards[player.name]) {
-                player.resourceCard(card);
+                player.resourceCard(card, false);
             }
             this.game.addMessage('{0} has resourced {1} cards from hand', player, this.selectedCards[player.name].length);
         } else {
