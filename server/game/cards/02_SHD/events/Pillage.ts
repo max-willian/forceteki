@@ -15,7 +15,7 @@ export default class Pillage extends EventCard {
             title: 'Choose a player. They discard 2 cards from their hand.',
             targetResolver: {
                 mode: TargetMode.Player,
-                immediateEffect: AbilityHelper.immediateEffects.discardCardsFromHand({ amount: 2 }),
+                immediateEffect: AbilityHelper.immediateEffects.discardCardsFromOwnHand({ amount: 2 }),
             }
         });
     }

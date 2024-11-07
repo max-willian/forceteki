@@ -237,10 +237,8 @@ export function reveal<TContext extends AbilityContext = AbilityContext>(propert
 // //////////////
 // // PLAYER
 // //////////////
-// /**
-//  * default amount = 1
-//  */
-export function discardCardsFromHand<TContext extends AbilityContext = AbilityContext>(propertyFactory: PropsFactory<IDiscardCardsFromHandProperties, TContext> = {}): DiscardCardsFromHand<TContext> {
+export function discardCardsFromOwnHand<TContext extends AbilityContext = AbilityContext>(propertyFactory: PropsFactory<IDiscardCardsFromHandProperties, TContext>): DiscardCardsFromHand<TContext> {
+    // TODO: Once we support discarding from opponents hand, add logic only allow the target to discard from their own hand here
     return new DiscardCardsFromHand<TContext>(propertyFactory);
 }
 // /**
