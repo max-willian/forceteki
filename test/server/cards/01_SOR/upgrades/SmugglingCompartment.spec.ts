@@ -5,10 +5,10 @@ describe('Smuggling Compartment', function() {
                 contextRef.setupTest({
                     phase: 'action',
                     player1: {
-                        groundArena: [{ card: 'snowspeeder', upgrades: ['smuggling-compartment'] }],
+                        groundArena: [{ card: 'atst', upgrades: ['smuggling-compartment'] }],
                     },
                     player2: {
-                        groundArena: ['atst']
+                        groundArena: ['snowspeeder']
                     }
                 });
             });
@@ -16,10 +16,12 @@ describe('Smuggling Compartment', function() {
             it('should ready a resource on attack', function () {
                 const { context } = contextRef;
 
+                context.player1.exhaustResources(2);
+
                 const exhaustedResourcesBeforeAbility = context.player1.countExhaustedResources();
 
-                context.player1.clickCard(context.snowspeeder);
                 context.player1.clickCard(context.atst);
+                context.player1.clickCard(context.snowspeeder);
 
                 expect(context.player1.countExhaustedResources()).toBe(exhaustedResourcesBeforeAbility - 1);
             });
