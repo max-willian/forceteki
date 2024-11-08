@@ -747,19 +747,6 @@ export class Card extends OngoingEffectSource {
         const isActivePlayer = activePlayer === this.controller;
         const selectionState = activePlayer.getCardSelectionState(this);
 
-        // add exhausted state if the card can be exhausted and is in play
-        let exhaustedState = {};
-        if (this.canBeExhausted() && this.canBeInPlay() && ((this as unknown as InPlayCard).isInPlay() || this.location === Location.Resource)) {
-            const exhausted = (this as unknown as PlayableOrDeployableCard).exhausted;
-            exhaustedState = { exhausted: exhausted };
-        }
-
-        // let damageState = {};
-        // if (this.canBeDamaged() && this.canBeInPlay() && ((this as unknown as InPlayCard).isInPlay() || this.location === Location.Base)) {
-        //     const damage = (this as unknown as NonLeaderUnitCard).damage;
-        //     damageState = { damage: damage };
-        // }
-
         // This is my facedown card, but I'm not allowed to look at it
         // OR This is not my card, and it's either facedown or hidden from me
         if (
@@ -774,7 +761,7 @@ export class Card extends OngoingEffectSource {
                 location: this.location,
                 uuid: isActivePlayer ? this.uuid : undefined
             };
-            return { ...state, ...selectionState, ...exhaustedState };
+            return { ...state, ...selectionState };
         }
 
 
@@ -793,7 +780,6 @@ export class Card extends OngoingEffectSource {
             // tokens: this.tokens,
             // types: this.types,
             uuid: this.uuid,
-            ...exhaustedState,
             ...selectionState
         };
 
