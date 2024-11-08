@@ -5,7 +5,7 @@ describe('Smuggling Compartment', function() {
                 contextRef.setupTest({
                     phase: 'action',
                     player1: {
-                        groundArena: [{ card: 'atst', upgrades: ['smuggling-compartment'] }],
+                        groundArena: [{ card: 'atst', upgrades: ['smuggling-compartment'] }, { card: 'wampa', upgrades: ['smuggling-compartment'] }],
                     },
                     player2: {
                         groundArena: ['snowspeeder']
@@ -24,6 +24,27 @@ describe('Smuggling Compartment', function() {
                 context.player1.clickCard(context.snowspeeder);
 
                 expect(context.player1.countExhaustedResources()).toBe(exhaustedResourcesBeforeAbility - 1);
+            });
+        });
+
+        describe('Smuggling Compartment', function() {
+            beforeEach(function () {
+                contextRef.setupTest({
+                    phase: 'action',
+                    player1: {
+                        hand: ['smuggling-compartment'],
+                        groundArena: ['snowspeeder', 'battlefield-marine']
+                    },
+                    player2: {
+                    }
+                });
+            });
+
+            it('should not be playable on non-vehicles', function () {
+                const { context } = contextRef;
+
+                context.player1.clickCard(context.smugglingCompartment);
+                expect(context.snowspeeder).toHaveExactUpgradeNames(['smuggling-compartment']);
             });
         });
     });
