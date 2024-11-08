@@ -1,9 +1,8 @@
 import AbilityHelper from '../../../AbilityHelper';
-import { AbilityContext } from '../../../core/ability/AbilityContext';
 import { NonLeaderUnitCard } from '../../../core/card/NonLeaderUnitCard';
 import { WildcardCardType } from '../../../core/Constants';
 
-export default class TheMandalorian extends NonLeaderUnitCard {
+export default class TheMandalorianWhereverIGoHeGoes extends NonLeaderUnitCard {
     protected override getImplementationId () {
         return {
             id: '6585115122',
@@ -19,16 +18,12 @@ export default class TheMandalorian extends NonLeaderUnitCard {
                 cardTypeFilter: WildcardCardType.Unit,
                 cardCondition: (card) => card.isUnit() && card.cost <= 2,
                 immediateEffect: AbilityHelper.immediateEffects.simultaneous([
-                    AbilityHelper.immediateEffects.heal((context) => ({ amount: this.getHealFromContext(context) })),
+                    AbilityHelper.immediateEffects.heal((context) => ({ amount: context.target.damage })),
                     AbilityHelper.immediateEffects.giveShield({ amount: 2 })
                 ])
             }
         });
     }
-
-    private getHealFromContext(context: AbilityContext) {
-        return context.target.damage
-    }
 }
 
-TheMandalorian.implemented = true;
+TheMandalorianWhereverIGoHeGoes.implemented = true;
