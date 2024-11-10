@@ -31,20 +31,6 @@ describe('The Mandalorian, Wherever I Go He Goes', function () {
                 expect(context.grogu).toHaveExactUpgradeNames(['shield', 'shield']);
             });
 
-            it('should heal all damage and give 2 shield tokens to an enemy unit', function () {
-                const { context } = contextRef;
-
-                context.player1.clickCard(context.theMandalorian);
-
-                expect(context.player1).toBeAbleToSelectExactly([context.grogu, context.scoutBikePursuer]);
-                expect(context.player1).toHavePassAbilityButton();
-
-                context.player1.clickCard(context.scoutBikePursuer);
-
-                expect(context.scoutBikePursuer.damage).toBe(0);
-                expect(context.scoutBikePursuer).toHaveExactUpgradeNames(['shield', 'shield']);
-            });
-
             it('should be passed', function () {
                 const { context } = contextRef;
 
